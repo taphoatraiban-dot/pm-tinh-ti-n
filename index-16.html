@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VietList Demo</title>
+<style>
+:root{--red:#b51222;--dark:#222;--line:#e5e5e5;--soft:#f5f5f5}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#222;background:#fff}.top{height:62px;background:var(--red);color:#fff;display:flex;align-items:center;padding:0 14px;gap:14px;position:sticky;top:0;z-index:10}.hamb{font-size:30px}.logo{font-weight:900;font-size:25px;letter-spacing:-1px;flex:1}.logo span{color:#ffd84a}.ico{font-size:22px}.wrap{max-width:760px;margin:auto}.hero{padding:15px 14px 7px}.hero h1{font-size:22px;margin:0 0 7px}.hero p{font-size:13px;color:#666;margin:0}.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;padding:8px 14px}.btn{border:1px solid #ccc;background:#fff;border-radius:5px;padding:10px 6px;text-align:center;font-weight:700;font-size:13px}.btn.red{background:var(--red);color:#fff;border-color:var(--red)}.search{margin:4px 14px 10px;display:flex;border:1px solid #bbb;border-radius:6px;overflow:hidden}.search input{border:0;outline:0;padding:11px;flex:1;font-size:15px}.search button{border:0;background:#eee;width:48px;font-size:19px}.filters{display:flex;gap:7px;overflow:auto;padding:0 14px 12px}.chip{white-space:nowrap;border:1px solid #ddd;background:#fafafa;padding:8px 10px;border-radius:18px;font-size:12px}.section{display:flex;align-items:center;padding:11px 14px;border-top:1px solid var(--line)}.section h2{font-size:18px;margin:0;flex:1}.section a{font-size:12px;color:var(--red);font-weight:bold}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px 16px}.card{border:1px solid #ddd;border-radius:7px;overflow:hidden;background:#fff;box-shadow:0 1px 2px #ddd}.photo{height:210px;background:linear-gradient(135deg,#ddd,#aaa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:46px;position:relative}.badge{position:absolute;top:7px;left:7px;background:var(--red);font-size:10px;padding:4px 6px;border-radius:3px}.verified{position:absolute;right:7px;top:7px;background:#1677ff;font-size:10px;padding:4px 6px;border-radius:3px}.info{padding:8px}.name{font-weight:800;font-size:14px;margin-bottom:5px}.meta{font-size:11px;color:#666;line-height:1.6}.score{font-size:11px;margin-top:6px;color:#16803a;font-weight:bold}.trust{height:5px;background:#eee;border-radius:4px;margin-top:5px}.trust i{display:block;width:84%;height:100%;background:#16803a;border-radius:4px}.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom);z-index:9}.nav div{text-align:center;padding:8px 2px;font-size:10px}.nav b{display:block;font-size:20px;margin-bottom:2px}.sheet{display:none;position:fixed;inset:62px 35% 0 0;background:#2c2c2c;color:#fff;z-index:20;padding:12px}.sheet.open{display:block}.sheet div{padding:15px 8px;border-bottom:1px solid #444;font-weight:bold}.footer-space{height:75px}.feature{margin:0 14px 15px;padding:12px;border-radius:8px;background:#f7f7f7}.feature strong{display:block;margin-bottom:5px}.feature small{color:#666}
+
+.profile-sheet{max-height:88vh;overflow:auto}.detail-hero{height:260px;border-radius:16px;background:linear-gradient(135deg,#eee,#cfcfcf);display:flex;align-items:center;justify-content:center;font-size:72px;margin:10px 0}.detail-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee}.action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.action-row button,.widebtn{border:0;border-radius:10px;padding:13px;font-weight:800}.redbtn{background:#c8102e;color:#fff}.softbtn{background:#f1f1f3}.form textarea{width:100%;min-height:100px;border:1px solid #ddd;border-radius:10px;padding:12px;font:inherit;box-sizing:border-box}.preview{display:flex;gap:8px;overflow:auto;margin-top:8px}.preview img{width:72px;height:72px;object-fit:cover;border-radius:10px}.accountbox{text-align:center}.avatar{width:82px;height:82px;border-radius:50%;background:#eee;margin:auto;display:flex;align-items:center;justify-content:center;font-size:40px}.notice{padding:12px;border-bottom:1px solid #eee}.saved{outline:3px solid #c8102e}.manage{display:flex;gap:6px;margin-top:8px}.manage button{border:1px solid #ddd;background:white;border-radius:8px;padding:7px 10px}
+</style>
+<style>
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:50;align-items:flex-end}.modal.show{display:flex}.panel{background:#fff;width:100%;max-height:88vh;overflow:auto;border-radius:16px 16px 0 0;padding:18px}.close{float:right;border:0;border-radius:50%;width:32px;height:32px}.field{margin:10px 0}.field label{display:block;font-size:12px;font-weight:bold;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #ccc;border-radius:6px}.field textarea{min-height:90px}.wide{width:100%;margin-top:8px}.districts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.district{padding:11px;border:1px solid #ddd;border-radius:6px;background:#fafafa}.toast{display:none;position:fixed;left:50%;bottom:82px;transform:translateX(-50%);background:#222;color:#fff;padding:10px;border-radius:7px;z-index:80}
+
+.profile-sheet{max-height:88vh;overflow:auto}.detail-hero{height:260px;border-radius:16px;background:linear-gradient(135deg,#eee,#cfcfcf);display:flex;align-items:center;justify-content:center;font-size:72px;margin:10px 0}.detail-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee}.action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.action-row button,.widebtn{border:0;border-radius:10px;padding:13px;font-weight:800}.redbtn{background:#c8102e;color:#fff}.softbtn{background:#f1f1f3}.form textarea{width:100%;min-height:100px;border:1px solid #ddd;border-radius:10px;padding:12px;font:inherit;box-sizing:border-box}.preview{display:flex;gap:8px;overflow:auto;margin-top:8px}.preview img{width:72px;height:72px;object-fit:cover;border-radius:10px}.accountbox{text-align:center}.avatar{width:82px;height:82px;border-radius:50%;background:#eee;margin:auto;display:flex;align-items:center;justify-content:center;font-size:40px}.notice{padding:12px;border-bottom:1px solid #eee}.saved{outline:3px solid #c8102e}.manage{display:flex;gap:6px;margin-top:8px}.manage button{border:1px solid #ddd;background:white;border-radius:8px;padding:7px 10px}
+</style></head>
+<body>
+<div class="top"><div class="hamb" onclick="menu()">☰</div><div class="logo">VIET<span>LIST</span></div><div class="ico">⌕</div><div class="ico">♢</div><div class="ico" onclick="openM('login')">●</div></div>
+<div id="sheet" class="sheet"><div>TRANG CHỦ</div><div>DANH BẠ</div><div>CỘNG ĐỒNG</div><div>VIDEO</div><div>KÝ SỰ</div><div>HỖ TRỢ</div></div>
+<main class="wrap">
+<section class="hero"><h1>Khám phá hồ sơ mới</h1><p>Danh bạ cộng đồng • lọc nhanh • ưu tiên hồ sơ đã xác minh</p></section>
+<div class="actions"><div class="btn" id="areaBtn" onclick="openM('area')">⌖ Khu vực</div><div class="btn" onclick="openM('account')">♡ Của tôi</div><div class="btn red" onclick="openM('post')">＋ Đăng bài</div></div>
+<div class="search"><input id="searchInput" placeholder="Tên, mã hồ sơ hoặc từ khóa" oninput="applyFilters()"><button onclick="applyFilters()">⌕</button></div>
+<div class="filters">
+<select class="chip" id="sortFilter" onchange="applyFilters()"><option value="new">Mới nhất</option><option value="trust">Uy tín cao</option></select>
+<select class="chip" id="trustFilter" onchange="applyFilters()"><option value="">Uy tín</option><option value="80">≥ 80</option><option value="90">≥ 90</option></select>
+<select class="chip" id="priceFilter" onchange="applyFilters()"><option value="">Giá</option><option value="low">Thấp → cao</option><option value="high">Cao → thấp</option></select>
+<select class="chip" id="ageFilter" onchange="applyFilters()"><option value="">Tuổi</option><option value="18-23">18–23</option><option value="24-27">24–27</option><option value="28-99">28+</option></select>
+<select class="chip" id="heightFilter" onchange="applyFilters()"><option value="">Chiều cao</option><option value="0-159">≤159</option><option value="160-165">160–165</option><option value="166-999">≥166</option></select>
+</div>
+<div class="feature"><strong>🛡 Trung tâm uy tín</strong><small>Hồ sơ có điểm uy tín, xác minh, lịch sử cập nhật và báo cáo minh bạch.</small></div>
+<div class="section"><h2>⭐ Hồ sơ ưu tiên</h2><a onclick="resetFilters()">XÓA LỌC</a></div>
+<div class="grid" id="profileGrid">
+<div class="card" onclick="openDetail(this)" data-city="TP. Hồ Chí Minh" data-district="Phú Nhuận" data-name="hồ sơ mẫu 01" data-age="23" data-height="165" data-trust="84" data-price="700" data-new="4"><div class="photo">👤<span class="badge">NỔI BẬT</span><span class="verified">✓ XÁC MINH</span></div><div class="info"><div class="name">Hồ sơ mẫu 01</div><div class="meta">📍 Phú Nhuận • 23 tuổi<br>↕ 165 cm • 700k • Cập nhật hôm nay</div><div class="score">Uy tín 84/100</div><div class="trust"><i></i></div></div></div>
+<div class="card" onclick="openDetail(this)" data-city="TP. Hồ Chí Minh" data-district="Quận 10" data-name="hồ sơ mẫu 02" data-age="25" data-height="160" data-trust="78" data-price="500" data-new="3"><div class="photo">👤<span class="badge">MỚI</span></div><div class="info"><div class="name">Hồ sơ mẫu 02</div><div class="meta">📍 Quận 10 • 25 tuổi<br>↕ 160 cm • 500k • 3 đánh giá</div><div class="score">Uy tín 78/100</div><div class="trust"><i style="width:78%"></i></div></div></div>
+<div class="card" onclick="openDetail(this)" data-city="TP. Hồ Chí Minh" data-district="Gò Vấp" data-name="hồ sơ mẫu 03" data-age="24" data-height="168" data-trust="91" data-price="900" data-new="2"><div class="photo">👤<span class="verified">✓ XÁC MINH</span></div><div class="info"><div class="name">Hồ sơ mẫu 03</div><div class="meta">📍 Gò Vấp • 24 tuổi<br>↕ 168 cm • 900k • ♡ 126 lượt lưu</div><div class="score">Uy tín 91/100</div><div class="trust"><i style="width:91%"></i></div></div></div>
+<div class="card" onclick="openDetail(this)" data-city="TP. Hồ Chí Minh" data-district="Quận 1" data-name="hồ sơ mẫu 04" data-age="26" data-height="162" data-trust="73" data-price="600" data-new="1"><div class="photo">👤</div><div class="info"><div class="name">Hồ sơ mẫu 04</div><div class="meta">📍 Quận 1 • 26 tuổi<br>↕ 162 cm • 600k • 💬 8 đánh giá</div><div class="score">Uy tín 73/100</div><div class="trust"><i style="width:73%"></i></div></div></div>
+</div>
+<div class="section"><h2>⚡ Hoạt động mới</h2><a>XEM THÊM</a></div>
+<div class="feature"><strong>Review mới • 5 phút trước</strong><small>Đánh giá cộng đồng sẽ hiển thị kèm trạng thái xác minh và công cụ báo cáo.</small></div>
+<div class="footer-space"></div>
+</main>
+<div class="nav"><div><b>⌂</b>Trang chủ</div><div><b>⌕</b>Tìm kiếm</div><div><b>＋</b>Đăng bài</div><div><b>♢</b>Thông báo</div><div><b>●</b>Tài khoản</div></div>
+
+<div id="detail" class="modal"><div class="sheet profile-sheet">
+<button class="x" onclick="closeM('detail')">×</button>
+<div class="detail-hero" id="detailPhoto">👤</div><h2 id="detailName">Hồ sơ</h2>
+<div class="detail-row"><span>Khu vực</span><b id="detailArea"></b></div>
+<div class="detail-row"><span>Tuổi / chiều cao</span><b id="detailSpecs"></b></div>
+<div class="detail-row"><span>Điểm uy tín</span><b id="detailTrust"></b></div>
+<div class="detail-row"><span>Mức tham khảo</span><b id="detailPrice"></b></div>
+<div class="action-row"><button class="redbtn" onclick="toggleFav()">♡ Yêu thích</button><button class="softbtn" onclick="reportProfile()">⚑ Báo cáo</button></div>
+<h3>Giới thiệu</h3><p>Hồ sơ cộng đồng mẫu. Thông tin chi tiết do chủ hồ sơ tự cập nhật.</p>
+</div></div>
+
+<div id="account" class="modal"><div class="sheet">
+<button class="x" onclick="closeM('account')">×</button><div class="accountbox"><div class="avatar">👤</div><h2 id="accName">Tài khoản</h2><p id="accState">Bạn chưa đăng nhập</p></div>
+<div id="guestBtns" class="action-row"><button class="redbtn" onclick="closeM('account');openM('auth')">Đăng nhập</button><button class="softbtn" onclick="closeM('account');openM('auth')">Đăng ký</button></div>
+<div id="userBtns" style="display:none"><button class="widebtn softbtn" style="width:100%" onclick="toast('Trang quản lý bài đăng')">Bài đăng của tôi</button><br><br><button class="widebtn softbtn" style="width:100%" onclick="logout()">Đăng xuất</button></div>
+</div></div>
+
+<div id="notice" class="modal"><div class="sheet"><button class="x" onclick="closeM('notice')">×</button><h2>Thông báo</h2>
+<div class="notice">✓ Chào mừng bạn đến VIETLIST</div><div class="notice">🛡️ Hãy hoàn thiện hồ sơ để tăng độ tin cậy.</div><div class="notice">♡ Hồ sơ đã lưu sẽ xuất hiện trong “Của tôi”.</div>
+</div></div>
+<div id="toast" class="toast"></div>
+<div id="login" class="modal"><div class="panel"><button class="close" onclick="closeM('login')">×</button><h2>Đăng nhập</h2><div class="field"><label>Email / tên đăng nhập</label><input></div><div class="field"><label>Mật khẩu</label><input type="password"></div><button class="btn red wide" onclick="done('login','Đăng nhập demo thành công')">Đăng nhập</button><button class="btn wide" onclick="reg()">Đăng ký tài khoản</button><div id="reg"></div></div></div>
+<div id="area" class="modal"><div class="panel"><button class="close" onclick="closeM('area')">×</button><h2>Chọn khu vực</h2><div class="field"><label>Tỉnh / Thành phố</label><select id="citySelect" onchange="renderDistricts()"></select></div><div id="districts" class="districts"></div><button class="btn wide" onclick="clearArea()">Hiển thị tất cả khu vực</button></div></div>
+<div id="post" class="modal"><div class="panel"><button class="close" onclick="closeM('post')">×</button><h2>Đăng bài mới</h2><div class="field"><label>Tiêu đề</label><input id="pt"></div><div class="field"><label>Khu vực</label><select><option>TP.HCM - Phú Nhuận</option><option>TP.HCM - Quận 10</option></select></div><div class="field"><label>Ảnh</label><input type="file" multiple accept="image/*"></div><div class="field"><label>Mô tả</label><textarea></textarea></div><button class="btn red wide" onclick="done('post','Đã lưu bài demo')">Đăng bài</button></div></div>
+<div id="account" class="modal"><div class="panel"><button class="close" onclick="closeM('account')">×</button><h2>Tài khoản của tôi</h2><p>👤 <b>Thành viên demo</b><br><small>Uy tín 80/100 • 0 bài</small></p><button class="btn wide">Bài của tôi</button><button class="btn wide" onclick="closeM('account');openM('post')">＋ Đăng bài mới</button><button class="btn wide">🔔 Thông báo</button><button class="btn wide">⚙ Sửa hồ sơ</button></div></div>
+<script>
+function openM(id){document.getElementById(id).classList.add('show')}
+function closeM(id){document.getElementById(id).classList.remove('show')}
+function toast(t){let e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',1800)}
+function done(id,t){closeM(id);toast(t)}
+function reg(){document.getElementById('reg').innerHTML='<hr><h3>Đăng ký</h3><div class="field"><label>Tên hiển thị</label><input></div><div class="field"><label>Email</label><input type="email"></div><div class="field"><label>Mật khẩu</label><input type="password"></div><button class="btn red wide" onclick="done(\'login\',\'Đã tạo tài khoản demo\')">Tạo tài khoản</button>'}
+function menu(){document.getElementById('sheet').classList.toggle('open')}
+const areaData={
+  "TP. Hồ Chí Minh":["Quận 1","Quận 3","Quận 7","Quận 8","Quận 10","Bình Thạnh","Gò Vấp","Phú Nhuận","Tân Bình","Tân Phú","Bình Chánh","Thủ Đức"],
+  "Hà Nội":["Ba Đình","Hoàn Kiếm","Đống Đa","Hai Bà Trưng","Cầu Giấy","Thanh Xuân","Hà Đông","Hoàng Mai","Long Biên","Nam Từ Liêm"],
+  "Đà Nẵng":["Hải Châu","Thanh Khê","Sơn Trà","Ngũ Hành Sơn","Liên Chiểu","Cẩm Lệ","Hòa Vang"],
+  "Đồng Nai":["Biên Hòa","Long Khánh","Nhơn Trạch","Long Thành","Trảng Bom","Vĩnh Cửu"],
+  "Bình Dương":["Thủ Dầu Một","Dĩ An","Thuận An","Tân Uyên","Bến Cát","Bàu Bàng"]
+};
+function initArea(){let s=document.getElementById('citySelect');s.innerHTML=Object.keys(areaData).map(c=>`<option>${c}</option>`).join('');renderDistricts()}
+function renderDistricts(){let c=document.getElementById('citySelect').value,d=document.getElementById('districts');d.innerHTML=areaData[c].map(x=>`<button class="district" onclick="selectArea('${c}','${x}')">${x}</button>`).join('')}
+
+let selectedCity='',selectedDistrict='';
+function inRange(v,r){if(!r)return true;let a=r.split('-').map(Number);return v>=a[0]&&v<=a[1]}
+function applyFilters(){
+ const q=(document.getElementById('searchInput').value||'').trim().toLowerCase();
+ const trust=Number(document.getElementById('trustFilter').value||0);
+ const age=document.getElementById('ageFilter').value;
+ const height=document.getElementById('heightFilter').value;
+ const price=document.getElementById('priceFilter').value;
+ const sort=document.getElementById('sortFilter').value;
+ const grid=document.getElementById('profileGrid');
+ let cards=[...grid.querySelectorAll('.card')];
+ cards.forEach(c=>{
+   const text=(c.dataset.name+' '+c.dataset.district+' '+c.textContent).toLowerCase();
+   const okArea=(!selectedDistrict)||(c.dataset.city===selectedCity&&c.dataset.district===selectedDistrict);
+   const ok=q===''||text.includes(q);
+   const okTrust=Number(c.dataset.trust)>=trust;
+   const okAge=inRange(Number(c.dataset.age),age);
+   const okHeight=inRange(Number(c.dataset.height),height);
+   c.style.display=(okArea&&ok&&okTrust&&okAge&&okHeight)?'':'none';
+ });
+ cards.sort((a,b)=>{
+   if(price==='low')return Number(a.dataset.price)-Number(b.dataset.price);
+   if(price==='high')return Number(b.dataset.price)-Number(a.dataset.price);
+   if(sort==='trust')return Number(b.dataset.trust)-Number(a.dataset.trust);
+   return Number(b.dataset.new)-Number(a.dataset.new);
+ }).forEach(c=>grid.appendChild(c));
+}
+function resetFilters(){
+ document.getElementById('searchInput').value='';
+ ['trustFilter','priceFilter','ageFilter','heightFilter'].forEach(id=>document.getElementById(id).value='');
+ document.getElementById('sortFilter').value='new'; applyFilters(); toast('Đã xoá bộ lọc');
+}
+
+function selectArea(city,district){selectedCity=city;selectedDistrict=district;document.getElementById('areaBtn').textContent='⌖ '+district;applyFilters();let n=[...document.querySelectorAll('#profileGrid .card')].filter(x=>x.style.display!=='none').length;closeM('area');toast(n?`Đã lọc ${district}`:`Chưa có hồ sơ tại ${district}`)}
+function clearArea(){selectedCity='';selectedDistrict='';document.getElementById('areaBtn').textContent='⌖ Khu vực';applyFilters();closeM('area');toast('Đã hiển thị tất cả khu vực')}
+initArea();
+let currentCard=null;
+function openDetail(c){
+ currentCard=c;
+ document.getElementById('detailName').textContent=c.querySelector('h3')?.textContent||c.dataset.name||'Hồ sơ';
+ document.getElementById('detailArea').textContent=(c.dataset.district||'')+', '+(c.dataset.city||'');
+ document.getElementById('detailSpecs').textContent=(c.dataset.age||'?')+' tuổi • '+(c.dataset.height||'?')+' cm';
+ document.getElementById('detailTrust').textContent=(c.dataset.trust||'0')+'/100';
+ document.getElementById('detailPrice').textContent=(c.dataset.price||'—')+'k';
+ openM('detail');
+}
+function toggleFav(){
+ if(!currentCard)return; currentCard.classList.toggle('saved');
+ let ids=JSON.parse(localStorage.getItem('vietlistFav')||'[]'), id=currentCard.dataset.name;
+ if(currentCard.classList.contains('saved')){if(!ids.includes(id))ids.push(id);toast('Đã lưu vào Của tôi')}
+ else {ids=ids.filter(x=>x!==id);toast('Đã bỏ yêu thích')}
+ localStorage.setItem('vietlistFav',JSON.stringify(ids));
+}
+function reportProfile(){toast('Đã ghi nhận báo cáo để xem xét');closeM('detail')}
+function showSaved(){
+ let ids=JSON.parse(localStorage.getItem('vietlistFav')||'[]');
+ document.querySelectorAll('#profileGrid .card').forEach(c=>c.style.display=ids.includes(c.dataset.name)?'':'none');
+ toast(ids.length?'Đang hiển thị hồ sơ đã lưu':'Bạn chưa lưu hồ sơ nào');
+}
+function openAccount(){syncAccount();openM('account')}
+function syncAccount(){
+ let u=JSON.parse(localStorage.getItem('vietlistUser')||'null'), logged=!!u;
+ document.getElementById('accName').textContent=logged?(u.name||u.email||'Tài khoản'):'Tài khoản';
+ document.getElementById('accState').textContent=logged?'Đã đăng nhập trên thiết bị này':'Bạn chưa đăng nhập';
+ document.getElementById('guestBtns').style.display=logged?'none':'grid';
+ document.getElementById('userBtns').style.display=logged?'block':'none';
+}
+function logout(){localStorage.removeItem('vietlistUser');syncAccount();toast('Đã đăng xuất')}
+function openNotices(){openM('notice')}
+
+document.addEventListener('DOMContentLoaded',()=>{
+ document.querySelectorAll('#profileGrid .card').forEach(c=>{
+   if((JSON.parse(localStorage.getItem('vietlistFav')||'[]')).includes(c.dataset.name))c.classList.add('saved');
+ });
+});
+</script>
+</body></html>
