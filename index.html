@@ -666,7 +666,9 @@ async function realPublishPost(){
 <script>
 async function refreshOnlinePosts(){
  const u=await cloudUser();
- const {data,error}=await sb.from('posts').select('*,post_images(image_url,sort_order)').order('created_at',{ascending:false});
+ let query=sb.from('posts').select('*,post_images(image_url,sort_order)');
+ query=u?query.or('status.eq.active,user_id.eq.'+u.id):query.eq('status','active');
+ const {data,error}=await query.order('created_at',{ascending:false});
  if(error){toast('Lỗi tải bài: '+error.message);return}
  onlinePosts=data||[];
  const grid=document.getElementById('profileGrid'); if(!grid)return;
