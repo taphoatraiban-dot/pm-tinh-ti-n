@@ -240,7 +240,7 @@ function showSaved(){
  document.querySelectorAll('#profileGrid .card').forEach(c=>c.style.display=ids.includes(c.dataset.name)?'':'none');
  toast(ids.length?'Đang hiển thị hồ sơ đã lưu':'Bạn chưa lưu hồ sơ nào');
 }
-function openAccount(){syncAccount();openM('account')}
+function legacy_openAccount(){syncAccount();openM('account')}
 function syncAccount(){
  let u=JSON.parse(localStorage.getItem('vietlistUser')||'null'), logged=!!u;
  document.getElementById('accName').textContent=logged?(u.name||u.email||'Tài khoản'):'Tài khoản';
@@ -298,7 +298,7 @@ async function cloudSignIn(email,password){
  const {data,error}=await sb.auth.signInWithPassword({email,password});
  if(error) throw error; localStorage.setItem('vietlistUser',JSON.stringify({email:data.user.email,name:data.user.user_metadata?.display_name||''})); syncAccount(); return data;
 }
-async function cloudLogout(){await sb.auth.signOut();localStorage.removeItem('vietlistUser');syncAccount();toast('Đã đăng xuất');}
+async function legacy_cloudLogout(){await sb.auth.signOut();localStorage.removeItem('vietlistUser');syncAccount();toast('Đã đăng xuất');}
 async function cloudLoadPosts(){
  const {data,error}=await sb.from('posts').select('*').eq('status','active').order('created_at',{ascending:false});
  if(error){console.warn(error);return}; if(!data)return;
@@ -390,7 +390,7 @@ async function cloudLoadPostsWithImages(){
 </script>
 <script>
 let onlinePosts=[], editPostId=null;
-async function refreshOnlinePosts(){
+async function legacy_refreshOnlinePosts(){
  const u=await cloudUser();
  let q=sb.from('posts').select('*,post_images(image_url,sort_order)').order('created_at',{ascending:false});
  const {data,error}=await q;if(error){toast('Lỗi tải bài: '+error.message);return}
@@ -407,7 +407,7 @@ async function refreshOnlinePosts(){
   grid.prepend(d);
  });
 }
-function openOnlineDetail(id){
+function legacy_openOnlineDetail(id){
  const p=onlinePosts.find(x=>x.id===id);if(!p)return;
  currentCard=document.querySelector('[data-post-id="'+id+'"]');
  document.getElementById('detailName').textContent=p.title||'Hồ sơ';
@@ -423,7 +423,7 @@ async function editOnlinePost(id){const p=onlinePosts.find(x=>x.id===id);if(!p)r
 async function saveEditPost(){const {error}=await sb.from('posts').update({title:eTitle.value.trim(),age:Number(eAge.value)||null,height:Number(eHeight.value)||null,price:Number(ePrice.value)||0,description:eDesc.value,updated_at:new Date().toISOString()}).eq('id',editPostId);if(error){toast(error.message);return}closeM('editPost');toast('Đã sửa bài');await refreshOnlinePosts()}
 async function toggleOnlinePost(id,status){const next=status==='active'?'hidden':'active';const {error}=await sb.from('posts').update({status:next,updated_at:new Date().toISOString()}).eq('id',id);if(error){toast(error.message);return}toast(next==='active'?'Đã hiện bài':'Đã ẩn bài');await refreshOnlinePosts()}
 async function deleteOnlinePost(id){if(!confirm('Xóa bài này?'))return;const p=onlinePosts.find(x=>x.id===id);const u=await cloudUser();if(p&&u){const paths=(p.post_images||[]).map(x=>{try{return new URL(x.image_url).pathname.split('/post-images/')[1]}catch(e){return null}}).filter(Boolean);if(paths.length)await sb.storage.from('post-images').remove(paths)}const {error}=await sb.from('posts').delete().eq('id',id);if(error){toast(error.message);return}toast('Đã xóa bài');await refreshOnlinePosts()}
-async function showMyOnlinePosts(){const u=await cloudUser();if(!u){toast('Bạn cần đăng nhập');openM('login');return}await refreshOnlinePosts();document.querySelectorAll('#profileGrid .card').forEach(c=>{if(c.classList.contains('cloud-post')){const p=onlinePosts.find(x=>x.id===c.dataset.postId);c.style.display=p&&p.user_id===u.id?'':'none'}else c.style.display='none'});toast('Bài đăng của tôi')}
+async function legacy_showMyOnlinePosts(){const u=await cloudUser();if(!u){toast('Bạn cần đăng nhập');openM('login');return}await refreshOnlinePosts();document.querySelectorAll('#profileGrid .card').forEach(c=>{if(c.classList.contains('cloud-post')){const p=onlinePosts.find(x=>x.id===c.dataset.postId);c.style.display=p&&p.user_id===u.id?'':'none'}else c.style.display='none'});toast('Bài đăng của tôi')}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(refreshOnlinePosts,900));
 </script>
 <script>
@@ -565,7 +565,7 @@ async function openRealPost(){
   if(!u){toast('Bạn cần đăng nhập');openM('login');return}
   openM('realPost');
 }
-async function realPublishPost(){
+async function legacy_realPublishPost(){
  const btn=document.getElementById('rpSubmit'), st=document.getElementById('rpStatus');
  try{
   const u=await cloudUser();
