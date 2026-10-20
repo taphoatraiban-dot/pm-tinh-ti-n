@@ -165,8 +165,8 @@
 
 
 <script>
-function openM(id){document.getElementById(id).classList.add('show')}
-function closeM(id){document.getElementById(id).classList.remove('show')}
+// Legacy openM removed: the guarded modal implementation below is authoritative.
+// Legacy closeM removed: the guarded modal implementation below is authoritative.
 function toast(t){let e=document.getElementById('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',1800)}
 function done(id,t){closeM(id);toast(t)}
 function reg(){document.getElementById('reg').innerHTML='<hr><h3>Đăng ký</h3><div class="field"><label>Tên hiển thị</label><input></div><div class="field"><label>Email</label><input type="email"></div><div class="field"><label>Mật khẩu</label><input type="password"></div><button class="btn red wide" onclick="done(\'login\',\'Đã tạo tài khoản demo\')">Tạo tài khoản</button>'}
