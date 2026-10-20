@@ -381,7 +381,7 @@ async function cloudLoadPostsWithImages(){
    const d=document.createElement('div');d.className='card cloud-post';d.dataset.postId=p.id;d.dataset.city=p.city||'';d.dataset.district=p.district||'';
    d.dataset.name=(p.title||'').toLowerCase();d.dataset.age=p.age||0;d.dataset.height=p.height||0;d.dataset.trust=70;d.dataset.price=p.price||0;d.dataset.new=300-i;
    d.onclick=()=>openDetail(d);
-   const media=img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':'<div class="ph">👤</div>';
+   const media=img?'<img src="'+esc(img)+'" style="width:100%;height:100%;object-fit:cover">':'<div class="ph">👤</div>';
    d.innerHTML='<div class="photo"><span class="tag">ONLINE</span>'+media+'</div><div class="body"><h3>'+esc(p.title||'Hồ sơ')+'</h3><div class="meta">📍 '+esc(p.district||p.city||'')+' • '+(p.age||'?')+' tuổi<br>↕ '+(p.height||'?')+' cm • '+(p.price||0)+'k</div></div>';
    grid.prepend(d);
  });
@@ -401,7 +401,7 @@ async function legacy_refreshOnlinePosts(){
   const d=document.createElement('div');d.className='card cloud-post'+(p.status!=='active'?' hidden-post':'');
   Object.assign(d.dataset,{postId:p.id,city:p.city||'',district:p.district||'',name:(p.title||'').toLowerCase(),age:p.age||0,height:p.height||0,trust:70,price:p.price||0,new:500-i});
   d.onclick=()=>openOnlineDetail(p.id);
-  const media=imgs[0]?'<img src="'+imgs[0].image_url+'" style="width:100%;height:100%;object-fit:cover">':'<div class="ph">👤</div>';
+  const media=imgs[0]?'<img src="'+esc(imgs[0].image_url)+'" style="width:100%;height:100%;object-fit:cover">':'<div class="ph">👤</div>';
   const tools=u&&p.user_id===u.id?'<div class="owner-tools"><button onclick="event.stopPropagation();editOnlinePost(\''+p.id+'\')">Sửa</button><button onclick="event.stopPropagation();toggleOnlinePost(\''+p.id+'\',\''+p.status+'\')">'+(p.status==='active'?'Ẩn':'Hiện')+'</button><button onclick="event.stopPropagation();deleteOnlinePost(\''+p.id+'\')">Xóa</button></div>':'';
   d.innerHTML='<div class="photo"><span class="tag">'+(p.status==='active'?'ONLINE':'ĐANG ẨN')+'</span>'+media+'</div><div class="body"><h3>'+esc(p.title||'Hồ sơ')+'</h3><div class="meta">📍 '+esc(p.district||p.city||'')+' • '+(p.age||'?')+' tuổi<br>↕ '+(p.height||'?')+' cm • '+(p.price||0)+'k</div>'+tools+'</div>';
   grid.prepend(d);
