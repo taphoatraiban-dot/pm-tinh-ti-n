@@ -672,7 +672,7 @@ async function refreshOnlinePosts(){
    d.dataset.postId=p.id;
    d.onclick=()=>openOnlineDetail(p.id);
    const media=imgs[0]
-     ? '<img src="'+imgs[0].image_url+'" alt="">'
+     ? '<img src="'+esc(imgs[0].image_url)+'" alt="">'
      : '<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:50px">👤</div>';
    const tools=u&&p.user_id===u.id
      ? '<div class="vl-tools"><button onclick="event.stopPropagation();editOnlinePost(\''+p.id+'\')">Sửa</button><button onclick="event.stopPropagation();toggleOnlinePost(\''+p.id+'\',\''+p.status+'\')">'+(p.status==='active'?'Ẩn':'Hiện')+'</button><button onclick="event.stopPropagation();deleteOnlinePost(\''+p.id+'\')">Xóa</button></div>'
@@ -691,7 +691,7 @@ function openOnlineDetail(id){
  const imgs=(p.post_images||[]).sort((a,b)=>(a.sort_order||0)-(b.sort_order||0));
  const track=document.getElementById('vlAlbumTrack');
  track.innerHTML=imgs.length
-   ? imgs.map(x=>'<div class="vl-slide"><img src="'+x.image_url+'" alt=""></div>').join('')
+   ? imgs.map(x=>'<div class="vl-slide"><img src="'+esc(x.image_url)+'" alt=""></div>').join('')
    : '<div class="vl-slide" style="color:white;font-size:70px">👤</div>';
  document.getElementById('vlAlbumTitle').textContent=p.title||'Hồ sơ';
  document.getElementById('vlAlbumMeta').textContent='📍 '+(p.district||p.city||'')+' • '+(p.age||'?')+' tuổi • '+(p.height||'?')+' cm • '+(p.price||0)+'k';
