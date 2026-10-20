@@ -610,7 +610,7 @@ async function legacy_realPublishPost(){
 async function realPublishPost(){
  const $=id=>document.getElementById(id);
  const btn=$('rpSubmit'), st=$('rpStatus');
- if(!btn) return;
+ if(!btn||btn.disabled) return;
  try{
   const u=await cloudUser();
   if(!u){toast('Bạn cần đăng nhập');closeM('realPost');openM('login');return}
